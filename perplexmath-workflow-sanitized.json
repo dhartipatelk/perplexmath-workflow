@@ -1,0 +1,138 @@
+{
+  "name": "PerplexMath - Tutor Session Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_YOUR_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Form Responses 1",
+          "mode": "name"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        0
+      ],
+      "id": "e6fd90bd-c6e8-46dd-9f0e-99007e2e917f",
+      "name": "Google Sheets Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "students",
+        "limit": 1,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "student_code",
+              "condition": "eq",
+              "keyValue": "={{ $json[\"Student\"].split(\" - \")[0].trim() }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        96,
+        48
+      ],
+      "id": "ff1a1d6e-29fe-4a88-a9ee-8a8608a3115c",
+      "name": "Get many rows"
+    },
+    {
+      "parameters": {
+        "tableId": "sessions",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "=student_id",
+              "fieldValue": "={{ $json.id}}"
+            },
+            {
+              "fieldId": "=date",
+              "fieldValue": "={{ DateTime.fromFormat($('Google Sheets Trigger').item.json['Session date'], 'M/d/yyyy').toISODate() }}"
+            },
+            {
+              "fieldId": "=session_type",
+              "fieldValue": "={{ $('Google Sheets Trigger').item.json['What did the session focus on?'] }}"
+            },
+            {
+              "fieldId": "=topics_covered",
+              "fieldValue": "={{ $('Google Sheets Trigger').item.json['Topics covered'] }}"
+            },
+            {
+              "fieldId": "=understanding_rating",
+              "fieldValue": "={{ Number($('Google Sheets Trigger').item.json['Student understanding'].split(' - ')[0]) }}"
+            },
+            {
+              "fieldId": "=assistance_needed",
+              "fieldValue": "={{ $('Google Sheets Trigger').item.json['Level of assistance needed'] }}"
+            },
+            {
+              "fieldId": "=tutor_notes",
+              "fieldValue": "={{ $('Google Sheets Trigger').item.json['Tutor observations'] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        320,
+        48
+      ],
+      "id": "26f0dfef-3861-4a41-8c61-012ed13d7ac3",
+      "name": "Create a row"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "nodeGroups": [],
+  "tags": []
+}
