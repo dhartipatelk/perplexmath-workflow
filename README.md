@@ -1,7 +1,7 @@
 # perplexmath-workflow
 ## PerplexMath — Tutor Session Automation
 Project overview
-PerplexMath is a prototype student-progress tracking workflow for a small virtual math tutoring business. It aims to help tutors document sessions consistently and help owners review student progress over time.
+PerplexMath is a math tutoring business that provides personalized instruction to students. This project focuses on  student-progress tracking workflow for a small virtual math tutoring business. It aims to help tutors document sessions consistently and help owners review student progress over time.
 Business problem
 The business uses diagnostic assessments and personalized workbooks, but tutoring-session observations are not consistently documented in one central location. This makes it difficult to review a student's session history and prepare regular progress updates.
 Proposed solution
