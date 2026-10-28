@@ -1,4 +1,5 @@
 # perplexmath-workflow
+![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 ## PerplexMath — Tutor Session Automation
 Project overview
 PerplexMath is a math tutoring business that provides personalized instruction to students. This project focuses on  student-progress tracking workflow for a small virtual math tutoring business. It aims to help tutors document sessions consistently and help owners review student progress over time.
